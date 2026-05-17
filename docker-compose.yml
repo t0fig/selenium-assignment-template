@@ -1,0 +1,28 @@
+services:
+  selenium:
+    image: selenium/standalone-chrome:4.20.0
+    ports:
+      - "4444:4444"
+    shm_size: "2g"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4444/wd/hub/status"]
+      interval: 3s
+      timeout: 5s
+      retries: 10
+
+  tests:
+    image: gradle:8.7-jdk17
+    depends_on:
+      selenium:
+        condition: service_healthy
+    volumes:
+      - .:/project
+      - gradle-cache:/home/gradle/.gradle
+    working_dir: /project
+    command: gradle test --info
+    environment:
+      - SELENIUM_HOST=selenium
+      - SELENIUM_PORT=4444
+
+volumes:
+  gradle-cache:

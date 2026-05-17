@@ -1,0 +1,15 @@
+build/
+.gradle/
+*.class
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
+.idea/
+*.iml
+.settings/
+.project
+.classpath
+bin/
+out/
+screenshots/
+.DS_Store
+docker-compose.override.yml
